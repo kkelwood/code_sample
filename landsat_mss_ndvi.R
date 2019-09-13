@@ -193,41 +193,75 @@ landsat_ndvi <- read.csv("data/ndvi/landsat_ndvi_all.csv") %>%
   mutate(DOY = yday(MMDD))
 
 str(landsat_ndvi)
+View(landsat_ndvi)
 
-# How many years are represented?
+# Explore the data
+
+## How many years are represented?
 length(unique(landsat_ndvi$YEAR))
 
-# Which years are represented?
+## Which years are represented?
 sort(unique(landsat_ndvi$YEAR))
 
-# Histogram of how many scenes are available by week of the growing season
-ggplot(landsat_ndvi, aes(x = week(MMDD))) +
-  geom_histogram(binwidth = 0.5) + 
-  labs(title = "How many cloud-free Landsat images are available?", subtitle = "Total from 1973-2013", x = "Week of the Year") + 
-  theme_bw()
-
-# Histogram of how many scenes are available each year
+## Histogram of how many scenes are available each year
 ggplot(landsat_ndvi, aes(x = YEAR)) +
   geom_histogram(binwidth = 0.5, 
                  center = 0) + 
-  labs(title = "How many cloud-free images are available each year?",
+  labs(title = "Number of cloud-free images available each year",
        x = "Year") + 
   theme_bw()
 
-# Histogram of NDVI max values
-ggplot(landsat_ndvi, aes(x = ndvi_max)) +
-  geom_histogram(binwidth = 0.1, 
-                 center = 0) + 
+## DOY range for images
+summary(landsat_ndvi$DOY)
+
+## Histogram of DOY
+ggplot(landsat_ndvi, aes(x = DOY)) +
+  geom_histogram(binwidth = 1) + 
+  labs(title = "Number of cloud-free Landsat images: Julian Day", subtitle = "Total from 1973-2013", x = "Day of the Year") + 
+  theme_bw()
+
+## Histogram of how many scenes are available by week of the growing season
+ggplot(landsat_ndvi, aes(x = week(MMDD))) +
+  geom_histogram(binwidth = 0.5) + 
+  labs(title = "Number of cloud-free Landsat images by week of the year", subtitle = "Total from 1973-2013", x = "Week of the Year") + 
+  theme_bw()
+
+
+## Max & min NDVI scene summaries
+summary(landsat_ndvi$ndvi_max)
+
+## Histogram of NDVI max values
+ggplot(landsat_ndvi) +
+  geom_histogram(aes(x = ndvi_max),
+                 position = "dodge",
+                 binwidth = 0.03, 
+                 center = 0,
+                 fill = "firebrick") + 
     labs(title = "Histogram of max NDVI per scene",
          x = "NDVI Max") + 
   theme_bw()
 
-# Create multi-panel plot of NDVI values (max, min, mean, sd, cv) over the growing season. Each point represents an MSS scene taken between 1973 and 1992.
+## Histogram of NDVI max values
+ggplot(landsat_ndvi) +
+  geom_histogram(aes(x = ndvi_min),
+                 position = "dodge",
+                 binwidth = 0.03, 
+                 center = 0,
+                 fill = "dodgerblue") + 
+  labs(title = "Histogram of max NDVI per scene",
+       x = "NDVI Max") + 
+  theme_bw()
 
-## Define variables are of interest: mean, max, min, sd, cv
+
+## Create multi-panel plot of NDVI values (max, min, mean, sd, cv) over the growing season. Each point represents an MSS scene taken between 1973 and 1992.
+
+### Define variables are of interest: mean, max, min, sd, cv
 variable_list <- names(landsat_ndvi[5:9])
 
-## Populate list `p` with a plot for each of the variables of interest
+### Create empty list to hold plots (p)
+p <- list()
+
+### Populate list `p` with a plot for each of the variables of interest
 for (i in variable_list) {
   p[[i]] <- ggplot(data = landsat_ndvi, aes_string(x = "MMDD", y = i)) +
     geom_point(aes(color = YEAR)) +
@@ -238,10 +272,12 @@ for (i in variable_list) {
   print(plot)
 }
 
-## Arrange all plots in list `p` in grid
+### Arrange all plots in list `p` in grid
 do.call(grid.arrange, p)
 
-# Create new dataframe that includes only overall max and min NDVI value for each year
+# Process data to create new summary statistics
+
+## Create new dataframe that includes only overall max and min NDVI value for each year
 landsat_ndvi_yearly_max <- landsat_ndvi %>% 
   group_by(YEAR) %>% 
   summarise(year_max = max(ndvi_max))
@@ -280,13 +316,24 @@ precip_monthly_totals <- precip_d1 %>%
 # Create new dataframe of hydrological year (HY) totals
 precip_HY_totals <- precip_d1 %>% 
   group_by(YEAR) %>% 
-  summarize(HY_total_precip = sum(precip, na.rm = TRUE))
+  summarize(HY_total_precip = sum(precip, na.rm = TRUE)) %>% 
+  filter(YEAR > 1964) # 1964 looks like an outlier (unusually low values) possibly because it was the first year of the record. Also, 1964 is before the Landsat data record, so it is irrelevant to this analysis.
+
+summary(precip_HY_totals$HY_total_precip)
+
+ggplot(data = precip_HY_totals, aes(x = YEAR, y = HY_total_precip)) + 
+  geom_bar(stat = "identity") + 
+  labs(title = "Hydrologic year precipitation totals over time",
+       x = "Year",
+       y = "Hydrologic year precipitation total (mm)") + 
+  theme_bw()
+
 
 # Compare max NDVI with HY total precip
 yearly_summaries <- merge(precip_HY_totals, landsat_ndvi_yearly_max) %>% 
   rename(year_max_ndvi = year_max)
 
-plot_total_precip_max_ndvi <- ggplot(data = yearly_summaries, aes(x = HY_total_precip, y = year_max_ndvi)) +
+plot_total_precip_max_ndvi <- ggplot(data = yearly_summaries, aes(x = HY_total_precip, y = year_max_ndvi, color = YEAR)) +
   geom_point() + 
   geom_smooth(method = "lm") +
   labs(title = "Precipitation and NDVI", 
@@ -295,15 +342,30 @@ plot_total_precip_max_ndvi <- ggplot(data = yearly_summaries, aes(x = HY_total_p
 plot_total_precip_max_ndvi
 
 # Compare spatial coefficient of variance (CV) of NDVI with HY total precip: Is there less variability in plant growth in drier or wetter years?
+
 landsat_ndvi_yearly_min_cv <- landsat_ndvi %>% 
   group_by(YEAR) %>% 
-  summarise(MIN_CV = min(ndvi_cv, na.rm = TRUE))
+  summarise(MIN_CV = min(ndvi_cv, na.rm = TRUE)) %>% 
+  filter(MIN_CV > 0, MIN_CV < 100) # Remove outliers
+
+## Histogram of max spatial CV values
+ggplot(landsat_ndvi_yearly_min_cv) +
+  geom_histogram(aes(x = MIN_CV),
+                 position = "dodge",
+                 bins = 10, 
+                 center = 0,
+                 fill = "dodgerblue") + 
+  labs(title = "Histogram of max NDVI per scene",
+       x = "Spatial CV Max") + 
+  theme_bw()
 
 yearly_summaries <- merge(yearly_summaries, landsat_ndvi_yearly_min_cv)
-plot_total_precip_min_cv <- ggplot(data = yearly_summaries, aes(x = HY_total_precip, y = MIN_CV)) +
+
+plot_total_precip_min_cv <- ggplot(data = yearly_summaries, aes(x = HY_total_precip, y = MIN_CV, color = YEAR)) +
   geom_point() + 
   geom_smooth(method = "lm") +
-  labs(x = "Y", y = "yearly_min_cv") + 
+  labs(title = "Spatial variability in plant growth (CV of NDVI) relative to precipitation",
+       x = "Total precipitation (mm) for the hydrological year", y = "Minimum spatial CV of NDVI during the growing season") + 
   theme_bw()
 plot_total_precip_min_cv
 
@@ -357,11 +419,6 @@ temp_d1_gdd <- merge(temp_d1_gdd_spring, temp_d1_gdd_summer)
 temp_all <- merge(temp_d1_yearly, temp_d1_gdd)
 str(temp_all)
 
-temp_all_yearly <- temp_all %>% 
-  group_by(YEAR) %>% 
-  summarise(TEMP_MAX_of_MEAN_Saddle_appx = (max(C1_mean_temp, na.rm = TRUE) - 10))
-head(temp_all_yearly)
-
 # Mean temp over time
 ggplot(data = temp_all, aes(y = mean_meantemp, x = YEAR)) + 
   geom_point() + 
@@ -398,3 +455,6 @@ plot_meanofmean_temp_max_ndvi <- ggplot(data = yearly_summaries2, aes(x = mean_m
   labs(title = "NDVI decreases with warmer mean annual temperatures",
        x = "Mean Annual Temperature (degC)", y = "Yearly Maximum NDVI")
 plot_meanofmean_temp_max_ndvi
+
+#### Next Steps ####
+# Now that we have a sense of the data, we would continue the analysis by building models that might describe the patterns we observed in the EDA. There is not much data (only 15 years from 1973-2013 had cloud-free imagery) and there is variability in the doy of the year (some years only had imagery from early season and some years only had imagery from late season), so it is important to be thoughtful about the types of research questions we can ask with this data. 
