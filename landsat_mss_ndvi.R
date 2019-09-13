@@ -47,10 +47,10 @@ check_create_dir <- function(dir_path) {
 # This part of the script processes Landsat satellite imagery from Landsat 1-5 (1972-2013) to calculate the normalized difference vegetation index (NDVI), which is a metric of plant growth and health. Images were downloaded prior to running the script and are publicly available via the USGS EarthExplorer at https://earthexplorer.usgs.gov/ (Landsat 1-5 MSS Collection 1 Level 1). The MSS sensor was used because  the research question required multiple decades of data and MSS is the longest running sensor. Only images that were 100% cloud-free within the study site boundary were included.
 
 ##### Load in the spatial extent file #####
-sensor_boundary <- readOGR("data/study_area_boundary/sensor_polygon_complex.shp")
+sensor_boundary <- readOGR("data/study_area_boundary/sensor_polygon_complex2.shp")
 
 # Get list of landsat 1-5 zipped files:
-landsat_zip_filelist <- list.files("/Volumes/PHENOCAMWSN/Landsat_EarthExplorer/Landsat_1-5_MSS",
+landsat_zip_filelist <- list.files("data/landsat_1-5_MSS/",
                                    full.names = TRUE)
 
 # Create and write blank dataframe
@@ -63,17 +63,20 @@ landsat_df <- data.frame(landsat_mission = as.numeric(),
                          ndvi_mean = as.numeric(),
                          ndvi_sd = as.numeric(),
                          ndvi_cv = as.numeric())
-
-output_csv <- "/Volumes/PHENOCAMWSN/Landsat_EarthExplorer/Output/landsat_ndvi_new.csv"
+output_csv_name <- "output/landsat_ndvi.csv"
+check_create_dir("output/")
 write.csv(x = landsat_df, 
-          file = output_csv,
+          file = output_csv_name,
           row.names = FALSE)
+
+# Create folder for unzipped Landsat data files
+check_create_dir("data/landsat_1-5_MSS_unzipped")
 
 ##### For loop of landsat data #####
 for (i in seq_along(landsat_zip_filelist)) {
   
   # Define location of files
-  unzipped_directory <- paste0("/Volumes/PHENOCAMWSN/Landsat_EarthExplorer/Unzipped/Landsat_1-5_MSS/", basename(landsat_zip_filelist[i]))
+  unzipped_directory <- paste0("data/landsat_1-5_MSS_unzipped/", basename(landsat_zip_filelist[i]))
   
   # Unzip the file from the tarball (.tar.gz)
   unzip_file <- untar(landsat_zip_filelist[i], 
@@ -97,7 +100,7 @@ for (i in seq_along(landsat_zip_filelist)) {
   landsat_crop <- crop(landsat_br, sensor_boundary_utm)
   landsat_mask <- mask(landsat_crop, sensor_boundary_utm)
   
-  # Calculate NDVI for landsat_mask
+  # Calculate NDVI for landsat_mask (for Landsat 1-5)
   mss_ndvi <- overlay(landsat_mask[[2]], # red band (0.6-0.7 nm): band 5 (Landsat 1-3) or band 2 (Landsat 4-5)
                       landsat_mask[[4]], # NIR (0.8-1.1): band 7 (Landsat 1-3) or band 4(Landsat 4-5)
                       fun = norm_diff) 
@@ -143,11 +146,11 @@ for (i in seq_along(landsat_zip_filelist)) {
                         ndvi_cv = scene_ndvi_cv)
   
   # Load and merge with existing NDVI csv file
-  old_csv <- read.csv("/Volumes/PHENOCAMWSN/Landsat_EarthExplorer/Output/landsat_ndvi_new.csv") %>% 
+  old_csv <- read.csv("output/landsat_ndvi.csv") %>% 
     mutate(date = as.Date(date))
   merged_df <- rbind(old_csv, temp_df)
   write.csv(x = merged_df, 
-            file = "/Volumes/PHENOCAMWSN/Landsat_EarthExplorer/Output/landsat_ndvi_new.csv",
+            file = "output/landsat_ndvi.csv",
             row.names = FALSE)
   
   # Plot scene NDVI
@@ -162,7 +165,8 @@ for (i in seq_along(landsat_zip_filelist)) {
                                        side = 2, font = 2, line = 0, cex = 1))
   
   # Save NDVI plot to Landsat_NDVI_plots folder
-  dev.print(png, paste0("/Volumes/PHENOCAMWSN/Landsat_EarthExplorer/Output/Landsat_NDVI_plots_New/", "L", landsat_sat, "_", scene_date, ".png"), width = 500, height = 500)
+  check_create_dir("output/NDVI_plots")
+  dev.print(png, paste0("output/NDVI_plots/", "L", landsat_sat, "_", scene_date, ".png"), width = 500, height = 500)
   
   # Clear dev
   dev.new()
