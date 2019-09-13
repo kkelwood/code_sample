@@ -1,0 +1,136 @@
+\doc
+
+TITLE. Air temperature data for D1 chart recorder, 1952 - ongoing. 
+
+ABSTRACT. Temperature data were collected on a daily time-scale from the D1 climate station (3743 m) since 1952. Over time, various circumstances have led to days with missing values. Some missing values were estimated from redundant sensors and nearby climate stations using various methods.  Greenland 1987 was a basis for the methodology. However when it was not possible to use this methodology, new methods were developed.
+
+INVESTIGATOR. Mark Losleben, Tree-Ring Lab, University of Arizona, 1215 E. Lowell Street, Box 210045, Tucson, AZ 85721, losleben@email.arizona.edu.
+Contact: Jennifer Morse, INSTAAR, University of Colorado, 4001 Discovery Drive, UCB 450, Boulder, CO 80303-0450, jennifer.f.morse@colorado.edu.
+
+VARIABLES. maximum air temperature, minimum air temperature, mean air temperature 
+
+KEYWORDS. climate, weather, meteorology, air temperature, climatology, d1, infilling, chart recorder, Niwot Ridge LTER, NWT, long term
+
+LOCATION. Study site was D1 climate station (3743 m).
+
+TIMING. begin 1 October 1952, ongoing, daily.
+
+CITATIONS. [1]Greenland, D.E. 1987. The climate of Niwot Ridge. University of Colorado Long-Term Ecological Research Data Report 87/7.
+
+METHODS. Missing dates from the Niwot Ridge data set were determined that crossed month or year boundaries for data up to 2008.  When such missing dates were found, adjacent sites where data were present were identified based on a pre-determined hierarchy (see below).
+#
+Niwot Data Files used in compilation of summary:
+	Temperature Data:
+	1 Climate Report Data			--->
+	2 Chart Recorder Temperature data	--->
+	3 DP211 data				--->
+	4 Cr21x
+(Method Flag 1) Regression Methodology:
+A regression was performed using the chart recorder data at the missing site and the adjacent site using a 14 day window prior to and after the missing day, the regression equation was applied to the value at the known site to determine the value for filling the missing site. A r^2 value above 0.6 were considered acceptable.  If the r^2 was below 0.6, or missing, a Standard Deviation Method was used to fill the missing value (see Method Flag 2).
+#
+(Method Flag 2) Standard Deviation Methodology:
+Ratios of known site values and standard deviations were used in order to determine the replacement values. The standard deviation was taken for the day (mm/dd) in question throughout the climate record at both the known site and the unknown site and applied as follows:
+#
+# 	Known Site Date Value (yyyy-mm-dd)				                                (x)
+# ______________________________________________  :  __________________________________________________
+# Std. Dev. of the day (mm-dd) at the known site                       Std. Dev. of the day (mm-dd) at the unknown site
+#
+Temperature data adjacency hierarchy (if value missing from charts):
+	(1) Dp211 Data Logger
+	(2) Cr21x Data Logger
+	(3) Saddle (SDL) Chart Recorder
+	(4) C1 Chart Recorder
+	(5) Allenspark (AP) adjusted to C1, then from C1 to D1 with the same method.
+	(6) Longmont (LNG)
+	(7) Berthoud (BTD)
+#
+Chart notes:
+2013-04-09	Slow clock? Unable to determine when or for how long
+2013-10-02	Slow clock
+2013-11-14	Slow clock
+2013-11-15	Slow clock (battery dead) 11/15 - 12/12; max=-6, min=-18
+2014-01-21	Pen fell off chart
+2014-04-01	Pen fell off chart
+2014-04-02	Pen fell off chart
+2014-04-03	Pen fell off chart
+2014-04-04	Pen fell off chart
+2014-04-05	Pen fell off chart
+2014-04-06	Pen fell off chart
+2014-04-09	Pen fell off chart
+2014-04-17	Pen fell off chart
+2014-04-18	Pen fell off chart
+2014-04-19	Pen fell off chart
+2014-04-20	Pen fell off chart
+2014-04-21	Pen fell off chart
+2014-04-22	Pen fell off chart
+2014-04-23	Pen fell off chart
+2014-04-24	Pen fell off chart
+2014-07-23	Missing chart
+2014-07-24	Missing chart
+2014-07-25	Missing chart
+2014-07-26	Missing chart
+2014-07-27	Missing chart
+2014-07-28	Missing chart
+2014-07-29	Missing chart
+2014-07-30	Missing chart
+2014-07-31	Missing chart
+2014-08-01	Missing chart
+2014-08-02	Missing chart
+2014-08-03	Missing chart
+2014-08-04	Missing chart
+2014-12-22	Pen fell off chart
+2014-12-23	Pen fell off chart
+2014-12-25	Pen fell off chart
+2014-12-26	Pen fell off chart
+2014-12-27	Pen fell off chart
+2014-12-28	Pen fell off chart
+2014-12-29	Pen fell off chart
+2014-12-30 	Pen fell off chart
+2014-12-31	Pen fell off chart
+2015-02-09	Pen tip fell off chart
+2015-03-14	Pen tip fell off chart
+2015-03-21	Pen tip fell off chart
+2015-04-07	Slow clock, max/min is 2/-28
+2015-04-20	Clock stopped, max/min is 0/-192015-04-21	Data are suspect2015-04-22	Data are suspect
+2015-04-23	Data are suspect2015-04-24	Data are suspect
+2015-04-27	Pen tip fell off chart
+2015-06-02	Slow clock, max/min is 6/-10
+2015-07-07	Estimated value2015-07-08	Estimated value	2015-07-09	Estimated value2015-07-10	Estimated value2015-07-11	Estimated value2015-07-12	Estimated value2015-07-13	Estimated value2015-07-14	Estimated value
+2015-09-07	Max/min for 08/27-09/08 = 13/-4
+2015-11-16	Suspect (slow clock)
+2016-04-26	Found with temp needle frozen in place2016-04-27	Found with temp needle frozen in place2016-04-28	Found with temp needle frozen in place2016-04-29	Found with temp needle frozen in place2016-04-30	Found with temp needle frozen in place2016-05-01	Found with temp needle frozen in place2016-05-02	Found with temp needle frozen in place
+2016-05-04	Slow clock2016-05-05	Slow clock2016-05-06	Slow clock2016-05-07	Slow clock
+2016-05-13	Slow clock2016-05-14	Slow clock2016-05-15	Slow clock
+2016-09-06	09/06 to 09/13 max/min = 10/-52016-09-07	09/06 to 09/13 max/min = 10/-52016-09-08	09/06 to 09/13 max/min = 10/-52016-09-09	09/06 to 09/13 max/min = 10/-52016-09-10	09/06 to 09/13 max/min = 10/-52016-09-11	09/06 to 09/13 max/min = 10/-52016-09-12	09/06 to 09/13 max/min = 10/-52016-09-13	09/06 to 09/13 max/min = 10/-5
+#
+No infilling for 2009 to 2016 data was performed.
+
+\type
+
+statistical
+
+\header
+
+COL1. label=LTER_site, type=string, units=none, missing value indicator=NaN, minimum=NWT, maximum=NWT, precision=, definition=Niwot Ridge Long Term Ecological Research site
+
+COL2. label=local_site, type=string, units=none, missing value indicator=NaN, minimum=d1, maximum=d1, precision=, definition=d1 site
+
+COL3. label=date, type=string, units=none, missing value indicator=NaN, minimum=1952-10-01, maximum=, precision=, definition=date (yyyy-mm-dd)
+
+COL4. label=max_temp, type=real, units=celsius, missing value indicator=NaN, minimum=, maximum=, precision=, definition=maximum air temperature
+
+COL5. label=maxtemp_flag, type=integer, units=none, missing value indicator=NaN, minimum=, maximum=, precision=1, definition=maximum air temperature method flag
+
+COL6. label=min_temp, type=real, units=celsius, missing value indicator=NaN, minimum=, maximum=, precision=, definition=minimum air temperature
+
+COL7. label=mintemp_flag, type=integer, units=none, missing value indicator=NaN, minimum=, maximum=, precision=1, definition=minimum air temperature method flag
+
+COL8. label=mean_temp, type=real, units=celsius, missing value indicator=NaN, minimum=, maximum=, precision=, definition=mean air temperature
+
+\data
+
+http://niwot.colorado.edu/data_csvs/d-1tdayv.ml.data.csv
+
+\log
+
+The initial iteration of this file was generated by Todd Ackerman over the course of March - November 2006.  The file was put under sccs control on 15 November 2006.[TMA 15 November 2006] 2005 and 2006 data were appended to the data section.[TMA 21 February 2007] 2007 data were appended to the data section.[TMA 19 March 2008] 2008 data were appended.[TMA 9 February 2009] 2009 and 2010 data were appended.[HCH 12 December 2011] 2011 and 2012 data were appended; title, keywords, comments, and cols were edited. Dates were changed to yyyy-mm-dd and missing values to NaN.[HCH 30 June 2013] 2013 and 2014 data were appended. Notes were appended to the methods section.[HCH 14 June 2015] Type was corrected.[HCH 22 May 2016] Temperature units changed to celsius.[HCH 27 April 2017] Data for 2015 and 2016 were appended along with chart notes. LTER site and local site columns were added.[HCH 23 October 2017]

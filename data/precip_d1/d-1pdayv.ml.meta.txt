@@ -1,0 +1,89 @@
+\doc
+
+TITLE. Precipitation data for D1 chart recorder, 1964 - ongoing.
+
+ABSTRACT. Precipitation data were collected on a daily time-scale from the D1 climate station (3743 m) since 1964. Over time, various circumstances have led to days with missing values. Some of these values were estimated from nearby climate stations.
+
+INVESTIGATOR. Mark Losleben, Tree-Ring Lab, University of Arizona, 1215 E. Lowell Street, Box 210045, Tucson, AZ 85721, losleben@email.arizona.edu.
+Contact: Jennifer Morse, INSTAAR, University of Colorado, 4001 Discovery Drive, UCB 450, Boulder, CO 80303-0450, jennifer.f.morse@colorado.edu.
+
+VARIABLES. precipitation, qualifying days, precipitation method flag
+
+KEYWORDS. climate, weather, meteorology, climatology, precipitation, d1, infilling, chart recorder, Niwot Ridge LTER, NWT, sensor data, long term
+
+LOCATION. Study site was D1 climate station (3743 m).
+
+TIMING. begin 1 October 1964, ongoing, daily.
+
+CITATIONS. [1]Greenland, D.E. 1987. The climate of Niwot Ridge. University of Colorado Long-Term Ecological Research Data Report 87/7.
+
+METHODS. The qualifying days variable is the number of days to which a precipitation value pertains.
+Missing dates from the Niwot Ridge data set were determined that crossed month or year boundaries for data up to 2008.  When such missing dates were found, adjacent sites where data were present were identified in a pre-determined hierarchy (see below).
+(Method Flag 1) Daily Ratio Methodology:
+Total precipitation for the date in question was calculated for the the period 1968-2008, for both the 'Known Site' and the 'Unknown Site', only for days where daily values existed for both sites (missing values and QD's > 1 were removed). A ratio was determined [Unknown Site : Known Site] based upon these totals.  This ratio was then multiplied by the value for that date at the 'Known Site' in order to determine the 'Unknown Site' value.
+(Method Flag 2) 
+If there was a known total at the 'Unknown Site' that crossed over into the following month, then the known reported total was kept, and the newly determined values were ratio-ed based upon that known total.
+Precipitation data adjacency hierarchy:
+D1:
+1) Saddle (if not in winter [OCT-MAY] due to bias that blowing snow can have)
+2) C1
+3) AP (Allenspark) -> C1 -> D1  (determine values at C1 for these days from AP, then regress to D1 from those determined values)
+4) WP (Winter Park)
+#
+Chart notes:
+2011-07-07 to 07-21	Marmots in rain gauge? all data bad
+2011-07-25 to 08-14	Marmots in rain gauge? all data bad
+2012-02-29	Can't tell when pen started coming back down: min possible=42mm, max possible=88 mm (took average of both for recorded number)
+2012-05-10	Possible leak in bucket explaining large drops of pen
+2012-05-15 to 05-25	Daily values unknown
+2012-05-29 to 06-05	Pen got stuck, no daily values
+2012-06-06	Pen off chart, potential animals
+2012-07-06 to 07-22	Daily values lost; total precip 140 mm but with evaporation, could be more
+2013-05-15	05-14 to 05-22 Chart lost
+2013-06-04	Pen fell off chart; no ppt values 06-04 to 06-14
+2013-06-17	Pen fell off chart; ppt 06-17 to 07-08 = 36 mm
+2013-09-09	Flood event
+2013-11-16	Pen fell off chart; no ppt 11/16 - 12/12
+2014-03-04	Pen fell off chart; total 02-21 to 03-4 = 57 mm
+2014-03-25	Pen fell off chart; total 03-20 to 03-25 = 18 mm 
+2014-04-01	Pen fell off chart; total 03-26 to 04-1 = 2.3" or 58 mm
+2014-04-11	Pen fell off chart; total 04-9 to 04-11 = 0" or 0 mm
+2014-04-25	Pen fell off chart; total 04-21 to 04-25 = .05" or 1 mm
+2014-05-14	Pen fell off chart; total 05-1 to 05-14 = 1.75" or 44 mm
+2014-06-10	Pen fell off chart; total 06-7 to 06-10 = .1" or 3 mm
+2014-08-19	Pen fell off chart, total 08-5 to 09-19 = .6" or 15 mm
+2014-11-11	Pen fell off chart; total 11-7 to11-11 = 1" or 25 mm
+2015-06-11	2 day ppt total (pen fell off chart)
+2015-06-19	Pen fell off chart - ppt total is for 6/15-6/19
+2015-12-11	Pen popped off arm on 12/112015-12-12	Pen popped off arm on 12/122015-12-13	Pen popped off arm on 12/132015-12-14	Pen popped off arm on 12/142015-12-15	Pen popped off arm on 12/15
+2015-12-22	Total ppt from 12/17 to 12/22 = 60 mm
+2016-01-19	No data between 1/14 - 1/19; no reason given
+2016-03-22	Data from 3/19-3/22 suspect; likely evaporation but unable to determine pen movement for sure
+#
+No infilling for 2009 to 2016 data was performed.
+
+\type
+
+statistical
+
+\header
+
+COL1. label=LTER_site, type=string, units=none, missing value indicator=NaN, minimum=NWT, maximum=NWT, precision=, definition=Niwot Ridge Long Term Ecological Research site
+
+COL2. label=local_site, type=string, units=none, missing value indicator=NaN, minimum=d1, maximum=d1, precision=, definition=d1 site
+
+COL3. label=date, type=string, units=none, missing value indicator=NaN, minimum=1964-10-01, maximum=, precision=1, definition=date(yyyy-mm-dd)
+
+COL4. label=precip, type=integer, units=millimeter, missing value indicator=NaN, minimum=0, maximum=, precision=1, definition=precipitation (cm)
+
+COL5. label=qdays, type=integer, units=day, missing value indicator=NaN, minimum=1, maximum=31, precision=, definition=qualifying days
+
+COL6. label=method_flag, type=real, units=none, missing value indicator=NaN, minimum=, maximum=, precision=, definition=precipitation method flag
+
+\data
+
+http://niwot.colorado/edu/data_csvs/d-1pdayv.ml.data.csv
+
+\log
+
+The initial iteration of this file was generated by Todd Ackerman over the course of March - November 2006.  The file was put under sccs control on 15 November 2006.[TMA 15 November 2006] Data for 2005 and 2006 were appended to the data section.[TMA 05 February 2007] Data for 2007 were appended to the data section.{TMA 26 March 2008] Data for 2008 were appended to the data section.[TMA 3 February 2009] Replaced December 2008 data with corrected data.[TMA 5 February 2009] Unshielded gauge data was removed (pre-October 1964).[TMA 12 February 2009] Data for 2009 and 2010 appended.[HCH 12 December 2011] 2011 and 2012 data were appended; title, keywords, comments, timing, and cols were edited. Dates were changed to yyyy-mm-dd and missing values to NaN.[HCH 30 June 2013] Data for 2013 and 2014 were appended, along with chart notes. Column labels were edited and column definitions were added.[HCH 08 May 2015] Values for 2014-02-15 to 2014-02-17 were replaced with correct values per Jen Morse.[HCH 02 August 2015] Data for 2015 and 2016 were appended along with chart notes. LTER site and local site columns were added.[HCH 23 October 2017]
