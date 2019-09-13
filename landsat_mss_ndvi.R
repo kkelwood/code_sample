@@ -455,6 +455,3 @@ plot_meanofmean_temp_max_ndvi <- ggplot(data = yearly_summaries2, aes(x = mean_m
   labs(title = "NDVI decreases with warmer mean annual temperatures",
        x = "Mean Annual Temperature (degC)", y = "Yearly Maximum NDVI")
 plot_meanofmean_temp_max_ndvi
-
-#### Next Steps ####
-# Now that we have a sense of the data, we would continue the analysis by building models that might describe the patterns we observed in the EDA. There is not much data (only 15 years from 1973-2013 had cloud-free imagery) and there is variability in the doy of the year (some years only had imagery from early season and some years only had imagery from late season), so it is important to be thoughtful about the types of research questions we can ask with this data. 
