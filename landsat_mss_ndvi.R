@@ -180,6 +180,7 @@ for (i in seq_along(landsat_zip_filelist)) {
 
 
 #### Part II: Exploratory Data Analysis & Visualization ####
+# After processing the data, the following analyses represent some of the first steps in understanding the data. First, I explore patterns of NDVI over years and across seasons. Second, I compare NDVI to precipitation data. Third, I compare NDVI to air temperature.
 
 # Load in csv file with summary NDVI values (e.g. mean, max, min, sd, cv)
 landsat_ndvi <- read.csv("data/ndvi/landsat_ndvi_all.csv") %>% 
