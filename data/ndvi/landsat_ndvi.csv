@@ -1,0 +1,2 @@
+"landsat_mission","sensor","date","pixel_count","ndvi_max","ndvi_min","ndvi_mean","ndvi_sd","ndvi_cv"
+"1","M",1973-07-10,74,0.372549019607843,-0.259259259259259,0.101179308065477,0.16962660489964,167.6495008148
