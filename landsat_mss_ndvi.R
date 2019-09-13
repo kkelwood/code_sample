@@ -66,8 +66,8 @@ landsat_df <- data.frame(landsat_mission = as.numeric(),
                          ndvi_mean = as.numeric(),
                          ndvi_sd = as.numeric(),
                          ndvi_cv = as.numeric())
-output_csv_name <- "output/landsat_ndvi.csv"
-check_create_dir("output/")
+output_csv_name <- "data/ndvi/landsat_ndvi.csv"
+check_create_dir("data/ndvi/")
 write.csv(x = landsat_df, 
           file = output_csv_name,
           row.names = FALSE)
@@ -149,11 +149,11 @@ for (i in seq_along(landsat_zip_filelist)) {
                         ndvi_cv = scene_ndvi_cv)
   
   # Load and merge with existing NDVI csv file
-  old_csv <- read.csv("output/landsat_ndvi.csv") %>% 
+  old_csv <- read.csv("data/ndvi/landsat_ndvi.csv") %>% 
     mutate(date = as.Date(date))
   merged_df <- rbind(old_csv, temp_df)
   write.csv(x = merged_df, 
-            file = "output/landsat_ndvi.csv",
+            file = "data/ndvi/landsat_ndvi.csv",
             row.names = FALSE)
   
   # Plot scene NDVI
@@ -182,7 +182,7 @@ for (i in seq_along(landsat_zip_filelist)) {
 #### Part II: Exploratory Data Analysis & Visualization ####
 
 # Load in csv file with summary NDVI values (e.g. mean, max, min, sd, cv)
-landsat_ndvi <- read.csv("output/landsat_ndvi_all.csv") %>% 
+landsat_ndvi <- read.csv("data/ndvi/landsat_ndvi_all.csv") %>% 
   mutate(date = as.POSIXct(date)) %>% 
   mutate(YEAR = year(date)) %>% 
   mutate(MONTH = month(date)) %>% 
